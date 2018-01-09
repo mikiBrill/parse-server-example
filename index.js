@@ -22,7 +22,7 @@ var api = new ParseServer({
   },
   push: {
     android: {
-      senderId: senderId: process.env.GCM_SENDER_ID,
+      senderId: process.env.GCM_SENDER_ID,
       apiKey: process.env.GCM_API_KEY
     }
   }
