@@ -22,8 +22,8 @@ var api = new ParseServer({
   }
   push: {
     android: {
-      senderId: '395232922299',
-      apiKey: 'AIzaSyAU--0NKCfxqbhhfS_InjbZp-Jw2pBqv8Q'
+      senderId: process.env.GCM_SENDER_ID,
+      apiKey: process.env.GCM_API_KEY
     }
 });
 // Client-keys like the javascript key or the .NET key are not necessary with parse-server
