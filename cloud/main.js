@@ -14,7 +14,7 @@ Parse.Cloud.define('pingReply', function(request, response) {
   Parse.Push.send({
   where: query,
   // Parse.Push requires a dictionary, not a string.
-  data: {message: "hello phone"},
+  data: {"message":"hello phone"},
   }, { success: function() {
      console.log("#### PUSH OK");
   }, error: function(error) {
