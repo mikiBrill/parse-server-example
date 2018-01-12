@@ -9,7 +9,7 @@ Parse.Cloud.define('pingReply', function(request, response) {
 	var jsonData = JSON.parse(customData);
 	var sender = jsonData.sender;
 	var query = new Parse.Query(Parse.Installation);
-	query.equalTo("installationId", sender);
+	query.equalTo("sender", sender);
 
 	Parse.Push.send({
 		where: query,
