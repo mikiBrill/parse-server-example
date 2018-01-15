@@ -1,4 +1,4 @@
-Parse.Cloud.define('pingReply', function(request, response) {
+Parse.Cloud.define('notifyClient', function(request, response) {
 	var params = request.params;
 	var customData = params.customData;
 
@@ -7,14 +7,17 @@ Parse.Cloud.define('pingReply', function(request, response) {
 	}
 
 	var jsonData = JSON.parse(customData);
-	var sender = jsonData.sender;
+	var clientInstallationId = jsonData.client;
+	var restaurantName = jsonData.restaurant;
+	var msg = jsonData.message;
 	var query = new Parse.Query(Parse.Installation);
-	query.equalTo("installationId", sender);
+	query.equalTo("installationId", clientInstallationId);
 
 	Parse.Push.send({
 		where: query,
 		// Parse.Push requires a dictionary, not a string.
-		data: {"alert": "hello phone"},
+		data: {"alert": msg,
+		       "restName": restaurantName},
 	}, { success: function() {
 		console.log("#### PUSH OK");
 	}, error: function(error) {
