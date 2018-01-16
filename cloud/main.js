@@ -22,7 +22,8 @@ Parse.Cloud.define('notifyClient', function(request, response) {
 		// Parse.Push requires a dictionary, not a string.
 		data: {"alert"	 : msg,
 		       "restName": restaurantName,
-		       "resvId"	 : reservationId},
+		       "resvId"	 : reservationId,
+		       "isClient": true},
 	}, { success: function() {
 		console.log("#### CLIENT PUSH OK");
 	}, error: function(error) {
@@ -37,7 +38,8 @@ Parse.Cloud.define('notifyClient', function(request, response) {
 		// Parse.Push requires a dictionary, not a string.
 		data: {"alert"	 : restMsg,
 		       "restName": restaurantName,
-		       "resvId"	 : reservationId},
+		       "resvId"	 : reservationId,
+		       "isClient": false},
 	}, { success: function() {
 		console.log("#### RESTAURANT PUSH OK");
 	}, error: function(error) {
