@@ -35,7 +35,9 @@ Parse.Cloud.define('notifyClient', function(request, response) {
 	Parse.Push.send({
 		where: query,
 		// Parse.Push requires a dictionary, not a string.
-		data: {"alert"	 : restMsg},
+		data: {"alert"	 : restMsg,
+		       "restName": restaurantName,
+		       "resvId"	 : reservationId},
 	}, { success: function() {
 		console.log("#### RESTAURANT PUSH OK");
 	}, error: function(error) {
