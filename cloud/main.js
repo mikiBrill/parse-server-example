@@ -67,7 +67,7 @@ Parse.Cloud.define('notifyClient', function(request, response) {
 	response.success('success');
 });
 
-Parse.Cloud.define('deletePushes', function(response) {
+Parse.Cloud.define('deletePushes', function(request, response) {
 	var query = new Parse.Query(Parse.PushStatus);
 	query.find({
 		success: function(pushes){
