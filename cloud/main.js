@@ -65,7 +65,9 @@ Parse.Cloud.define('notifyClient', function(request, response) {
 	}, useMasterKey: true});
 	
 	response.success('success');
-	
+});
+
+Parse.Cloud.define('deletePushes', function(response) {
 	var query = new Parse.Query(Parse.PushStatus);
 	query.find({
 				success: function(pushes){
@@ -75,5 +77,8 @@ Parse.Cloud.define('notifyClient', function(request, response) {
 					console.error("error at querying: ", err2);
 				}
 	});
-	
+	response.success('success');
 });
+
+
+
