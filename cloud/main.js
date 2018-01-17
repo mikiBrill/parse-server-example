@@ -152,16 +152,18 @@ Parse.Cloud.define('deleteRestaurantLogo', function(request, response) {
 			
 			query2.find({
 				success: function(chunks){
-					var chunksObj = chunks[0];
-					chunksObj.destroy({
-						success: function(chunksObj) {
-						console.log("delete from fs.chunks success: ", chunksObj);
-						},
-						error: function(error) {
-							console.error("delete from fs.chunks failed: ", error);
-						},
-						useMasterKey: true
-					});
+					for (var i = 0; i < chunks.length; i++) {
+						var chunksObj = chunks[i];
+						chunksObj.destroy({
+							success: function(chunksObj) {
+							console.log("delete from fs.chunks success: ", chunksObj);
+							},
+							error: function(error) {
+								console.error("delete from fs.chunks failed: ", error);
+							},
+							useMasterKey: true
+						});
+					}
 				},
 				error: function(err2){
 					console.error("error at querying: ", err2);
