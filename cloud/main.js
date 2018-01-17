@@ -34,10 +34,10 @@ Parse.Cloud.define('notifyClient', function(request, response) {
 			   reservation.set("is_notified", true);
 			   reservation.save({useMasterKey:true},{
 			    success: function(updated){
-			   //worked
+				console.log("Reservation in_notified updated to true");
 			  },
 			  error: function(error, updated){
-			    //didn't work
+			    	console.error("error updating Reservation in_notified: ", error);
 			   }
 			 });
 
