@@ -37,14 +37,14 @@ Parse.Cloud.define('notifyClient', function(request, response) {
 			    success: function(updated){
 				console.log("Reservation in_notified updated to true: ", updated);
 			  },
-			  error: function(error, updated){
-			    	console.error("error updating Reservation in_notified: ", error);
+			  error: function(err){
+			    	console.error("error updating Reservation in_notified: ", err);
 			   }
 			 });
 
 	       },
-	      error: function(error, reservation){
-		    console.error("error at querying: ", error);
+	      error: function(err2){
+		    console.error("error at querying: ", err2);
 	       }
 	   });
 	}, error: function(error) {
