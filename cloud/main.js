@@ -140,7 +140,7 @@ Parse.Cloud.define('deleteRestaurantLogo', function(request, response) {
 	var jsonData = JSON.parse(customData);
 	var logoFilename = jsonData.filename;
 	
-	var query = new Parse.Query("fs.files");
+	var query = new Parse.Query(Parse.File);
 	//query.equalTo("filename", logoFilename);
 	
 	query.find({
