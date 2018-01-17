@@ -26,7 +26,7 @@ Parse.Cloud.define('notifyClient', function(request, response) {
 	}, { success: function() {
 		console.log("#### CLIENT PUSH OK");
 		var query = new Parse.Query("Reservation");
-		query.equalTo("_id", reservationId);
+		query.equalTo("objectId", reservationId);
 
 		  query.find({
 		      success: function(reservation){
