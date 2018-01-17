@@ -72,8 +72,9 @@ Parse.Cloud.define('deletePushes', function(request, response) {
 	query.find({
 		success: function(pushes){
 			for (var i = 0; i < pushes.length; i++) {
-				pushes[i].destroy({
-					success: function(pushes[i]) {
+				var pushObj = pushes[i];
+				pushObj.destroy({
+					success: function(pushObj) {
 					// The object was deleted from the Parse Cloud.
 					},
 					error: function(error) {
