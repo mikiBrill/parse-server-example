@@ -75,15 +75,50 @@ Parse.Cloud.define('deletePushes', function(request, response) {
 				var pushObj = pushes[i];
 				pushObj.destroy({
 					success: function(pushObj) {
-					// The object was deleted from the Parse Cloud.
+					console.log("delete push success: ", pushObj);
 					},
 					error: function(error) {
-						// The delete failed.
-						// error is a Parse.Error with an error code and message.
+						console.error("delete push failed: ", error);
 					},
 					useMasterKey: true
 				});
 			}
+		},
+		error: function(err2){
+			console.error("error at querying: ", err2);
+		},
+		useMasterKey: true
+	});
+	
+	response.success('success');
+});
+
+Parse.Cloud.define('deleteInstallation', function(request, response) {
+	var params = request.params;
+	var customData = params.customData;
+
+	if (!customData) {
+		response.error("Missing customData!")
+	}
+
+	var jsonData = JSON.parse(customData);
+	var clientInstallationId = jsonData.installationId;
+	
+	var query = new Parse.Query(Parse.Installation);
+	query.equalTo("installationId", clientInstallationId);
+	
+	query.find({
+		success: function(installations){
+				var installationObj = installations[0];
+				installationObj.destroy({
+					success: function(pushObj) {
+					console.log("delete installation success: ", installationObj);
+					},
+					error: function(error) {
+						console.error("delete installation failed: ", error);
+					},
+					useMasterKey: true
+				});
 		},
 		error: function(err2){
 			console.error("error at querying: ", err2);
