@@ -41,9 +41,9 @@ Parse.Cloud.define('notifyClient', function(request, response) {
 				   }
 				 });
 			},
-		  error: function(err2){
-			console.error("error at querying: ", err2);
-		   }
+		    error: function(err2){
+				console.error("error at querying: ", err2);
+		    }
 		});
 	}, error: function(error) {
 		console.log("#### CLIENT PUSH ERROR: " + error.message);
@@ -69,17 +69,15 @@ Parse.Cloud.define('notifyClient', function(request, response) {
 
 Parse.Cloud.define('deletePushes', function(request, response) {
 	var query = new Parse.Query("_PushStatus");
-	query.find({useMasterKey: true},{
+	query.find({
 		success: function(pushes){
 			console.log("Pushes found", pushes);
 		},
 		error: function(err2){
 			console.error("error at querying: ", err2);
-		}
+		},
+		useMasterKey: true
 	});
+	
 	response.success('success');
 });
-
-
-
-
