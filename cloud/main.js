@@ -25,6 +25,27 @@ Parse.Cloud.define('notifyClient', function(request, response) {
 		       "resvId"	 : reservationId},
 	}, { success: function() {
 		console.log("#### CLIENT PUSH OK");
+		var query = new Parse.Query("Reservation");
+		query.equalTo("_id", reservationId);
+
+		  query.find({
+		      success: function(reservation){
+			  console.log("Reservation found", reservation);
+			   reservation.set("is_notified", true);
+			   reservation.save(null,{useMasterKey:true}{
+			    success: function(updated){
+			   //worked
+			  },
+			  error: function(error, updated){
+			    //didn't work
+			   }
+			 });
+
+	       },
+	      error: function(error, reservation){
+		    console.error("error at querying: ", error);
+	       }
+	   });
 	}, error: function(error) {
 		console.log("#### CLIENT PUSH ERROR: " + error.message);
 	}, useMasterKey: true});
@@ -43,6 +64,6 @@ Parse.Cloud.define('notifyClient', function(request, response) {
 	}, error: function(error) {
 		console.log("#### RESTAURANT PUSH ERROR: " + error.message);
 	}, useMasterKey: true});
-
+	
 	response.success('success');
 });
