@@ -130,7 +130,7 @@ Parse.Cloud.define('deleteInstallation', function(request, response) {
 });
 
 Parse.Cloud.define('deleteRestaurantLogo', function(request, response) {
-	db = connect('ds131137.mlab.com:31137/adminMiki');
+	db = connect('ds131137.mlab.com:31137/heroku_jtjcg0gp');
 	db.auth('adminMiki', 'admin1');
 	console.log(db.stats());
 	var count = 0;
