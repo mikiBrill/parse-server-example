@@ -32,7 +32,7 @@ Parse.Cloud.define('notifyClient', function(request, response) {
 		      success: function(reservation){
 			  console.log("Reservation found", reservation);
 			   reservation.set("is_notified", true);
-			   reservation.save(null,{useMasterKey:true}{
+			   reservation.save({useMasterKey:true},{
 			    success: function(updated){
 			   //worked
 			  },
