@@ -71,7 +71,18 @@ Parse.Cloud.define('deletePushes', function(request, response) {
 	var query = new Parse.Query("_PushStatus");
 	query.find({
 		success: function(pushes){
-			console.log("Pushes found", pushes);
+			for (var i = 0; i < pushes.length; i++) {
+				pushes[i].destroy({
+					success: function(pushes[i]) {
+					// The object was deleted from the Parse Cloud.
+					},
+					error: function(error) {
+						// The delete failed.
+						// error is a Parse.Error with an error code and message.
+					},
+					useMasterKey: true
+				});
+			}
 		},
 		error: function(err2){
 			console.error("error at querying: ", err2);
