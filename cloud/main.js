@@ -69,7 +69,7 @@ Parse.Cloud.define('notifyClient', function(request, response) {
 
 Parse.Cloud.define('deletePushes', function(request, response) {
 	var query = new Parse.Query("_PushStatus");
-	query.find({
+	query.find({useMasterKey: true},{
 		success: function(pushes){
 			console.log("Pushes found", pushes);
 		},
