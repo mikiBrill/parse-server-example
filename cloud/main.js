@@ -23,37 +23,28 @@ Parse.Cloud.define('notifyClient', function(request, response) {
 		data: {"alert"	 : msg,
 		       "restName": restaurantName,
 		       "resvId"	 : reservationId},
-	}, { success: function(pushEntry) {
-		console.log("#### CLIENT PUSH OK: ", pushEntry);
+	}, { success: function() {
+		console.log("#### CLIENT PUSH OK: ");
 		var query = new Parse.Query("Reservation");
 		query.equalTo("objectId", reservationId);
 
-		  query.find({
-		      success: function(reservations){
-			  console.log("Reservations found", reservations);
-			   reservations[0].set("is_notified", true);
-			   reservations[0].save(null,{
-			    success: function(updated){
-				console.log("Reservation in_notified updated to true: ", updated);
-			  },
-			  error: function(err){
-			    	console.error("error updating Reservation in_notified: ", err);
-			   }
-			 });
-		pushEntry.destroy({
-		  success: function(pushEntry) {
-		    // The object was deleted from the Parse Cloud.
-		  },
-		  error: function(error) {
-		    console.error("error updating Reservation in_notified: ", error);
-		  }
+		query.find({
+			success: function(reservations){
+				  console.log("Reservations found", reservations);
+				  reservations[0].set("is_notified", true);
+				  reservations[0].save(null,{
+					success: function(updated){
+					console.log("Reservation in_notified updated to true: ", updated);
+				  },
+				  error: function(err){
+						console.error("error updating Reservation in_notified: ", err);
+				   }
+				 });
+			},
+		  error: function(err2){
+			console.error("error at querying: ", err2);
+		   }
 		});
-
-	       },
-	      error: function(err2){
-		    console.error("error at querying: ", err2);
-	       }
-	   });
 	}, error: function(error) {
 		console.log("#### CLIENT PUSH ERROR: " + error.message);
 	}, useMasterKey: true});
@@ -74,4 +65,15 @@ Parse.Cloud.define('notifyClient', function(request, response) {
 	}, useMasterKey: true});
 	
 	response.success('success');
+	
+	var query = new Parse.Query(Parse.PushStatus);
+	query.find({
+				success: function(pushes){
+					console.log("Pushes found", pushes);
+				},
+				error: function(err2){
+					console.error("error at querying: ", err2);
+				}
+	});
+	
 });
