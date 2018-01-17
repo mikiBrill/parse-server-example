@@ -70,15 +70,16 @@ Parse.Cloud.define('notifyClient', function(request, response) {
 Parse.Cloud.define('deletePushes', function(response) {
 	var query = new Parse.Query(Parse.PushStatus);
 	query.find({
-				success: function(pushes){
-					console.log("Pushes found", pushes);
-				},
-				error: function(err2){
-					console.error("error at querying: ", err2);
-				}
+		success: function(pushes){
+			console.log("Pushes found", pushes);
+		},
+		error: function(err2){
+			console.error("error at querying: ", err2);
+		}
 	});
 	response.success('success');
 });
+
 
 
 
