@@ -31,7 +31,6 @@ Parse.Cloud.define('notifyClient', function(request, response) {
 		  query.find({
 		      success: function(reservations){
 			  console.log("Reservations found", reservations);
-			  console.log("Reservation found", reservations[0]);
 			   reservations[0].set("is_notified", true);
 			   reservations[0].save(null,{
 			    success: function(updated){
