@@ -30,11 +30,12 @@ Parse.Cloud.define('notifyClient', function(request, response) {
 
 		  query.find({
 		      success: function(reservations){
-			  console.log("Reservation found", reservation);
+			  console.log("Reservations found", reservations);
+			  console.log("Reservation found", reservations[0]);
 			   reservations[0].set("is_notified", true);
 			   reservations[0].save(null,{
 			    success: function(updated){
-				console.log("Reservation in_notified updated to true");
+				console.log("Reservation in_notified updated to true: ", updated);
 			  },
 			  error: function(error, updated){
 			    	console.error("error updating Reservation in_notified: ", error);
