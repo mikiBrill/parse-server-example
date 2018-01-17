@@ -29,10 +29,10 @@ Parse.Cloud.define('notifyClient', function(request, response) {
 		query.equalTo("objectId", reservationId);
 
 		  query.find({
-		      success: function(reservation){
+		      success: function(reservations){
 			  console.log("Reservation found", reservation);
-			   reservation.set("is_notified", true);
-			   reservation.save(null,{
+			   reservations[0].set("is_notified", true);
+			   reservations[0].save(null,{
 			    success: function(updated){
 				console.log("Reservation in_notified updated to true");
 			  },
