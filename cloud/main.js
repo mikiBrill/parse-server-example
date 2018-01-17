@@ -140,22 +140,22 @@ Parse.Cloud.define('deleteRestaurantLogo', function(request, response) {
 	var jsonData = JSON.parse(customData);
 	var logoFilename = jsonData.filename;
 	
-	var query = new Parse.Query(Parse.File);
+	var query = new Parse.Query("fs.files");
 	//query.equalTo("filename", logoFilename);
 	
 	query.find({
-		success: function(files){
-			console.log("found fs.files: ", files);
-			var fileObj = files[0];
+		success: function(logoFiles){
+			console.log("found fs.files: ", logoFiles);
+			var fileObj = logoFiles[0];
 			var fileObjId = fileObj.get("objectId");
 			var query2 = new Parse.Query("fs.chunks");
 			//query2.equalTo("files_id", fileObjId);
 			
 			query2.find({
-				success: function(chunks){
-					console.log("found fs.chunks: ", chunks);
-					for (var i = 0; i < chunks.length; i++) {
-						var chunksObj = chunks[i];
+				success: function(logoChunks){
+					console.log("found fs.chunks: ", logoChunks);
+					for (var i = 0; i < logoChunks.length; i++) {
+						var chunksObj = logoChunks[i];
 						chunksObj.destroy({
 							success: function(chunksObj) {
 							console.log("delete from fs.chunks success: ", chunksObj);
