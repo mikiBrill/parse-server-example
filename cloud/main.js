@@ -23,8 +23,8 @@ Parse.Cloud.define('notifyClient', function(request, response) {
 		data: {"alert"	 : msg,
 		       "restName": restaurantName,
 		       "resvId"	 : reservationId},
-	}, { success: function() {
-		console.log("#### CLIENT PUSH OK");
+	}, { success: function(pushEntry) {
+		console.log("#### CLIENT PUSH OK: ", pushEntry);
 		var query = new Parse.Query("Reservation");
 		query.equalTo("objectId", reservationId);
 
@@ -40,6 +40,14 @@ Parse.Cloud.define('notifyClient', function(request, response) {
 			    	console.error("error updating Reservation in_notified: ", err);
 			   }
 			 });
+		pushEntry.destroy({
+		  success: function(pushEntry) {
+		    // The object was deleted from the Parse Cloud.
+		  },
+		  error: function(error) {
+		    console.error("error updating Reservation in_notified: ", error);
+		  }
+		});
 
 	       },
 	      error: function(err2){
