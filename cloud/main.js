@@ -130,66 +130,29 @@ Parse.Cloud.define('deleteInstallation', function(request, response) {
 });
 
 Parse.Cloud.define('deleteRestaurantLogo', function(request, response) {
-	var params = request.params;
-	var customData = params.customData;
-
-	if (!customData) {
-		response.error("Missing customData!")
-	}
-
-	var jsonData = JSON.parse(customData);
-	var logoFilename = jsonData.filename;
-	
-	var query = new Parse.Query("fs.files");
-	//query.equalTo("filename", logoFilename);
-	
-	query.find({
-		success: function(logoFiles){
-			console.log("found fs.files: ", logoFiles);
-			var fileObj = logoFiles[0];
-			var fileObjId = fileObj.get("objectId");
-
-			//query2.equalTo("files_id", fileObjId);
-			
-			
-			fileObj.destroy({
-				success: function(fileObj) {
-				console.log("delete from fs.files success: ", fileObj);
-				},
-				error: function(error) {
-					console.error("delete from fs.files failed: ", error);
-				},
-				useMasterKey: true
-			});
-		},
-		error: function(err2){
-			console.error("error at querying: ", err2);
-		},
-		useMasterKey: true
-	});
-	
-	var query2 = new Parse.Query("fs.chunks");
-	query2.find({
-				success: function(logoChunks){
-					console.log("found fs.chunks: ", logoChunks);
-					for (var i = 0; i < logoChunks.length; i++) {
-						var chunksObj = logoChunks[i];
-						chunksObj.destroy({
-							success: function(chunksObj) {
-							console.log("delete from fs.chunks success: ", chunksObj);
-							},
-							error: function(error) {
-								console.error("delete from fs.chunks failed: ", error);
-							},
-							useMasterKey: true
-						});
-					}
-				},
-				error: function(err2){
-					console.error("error at querying: ", err2);
-				},
-				useMasterKey: true
-			});
-	
+	db = connect('ds131137.mlab.com:31137/adminMiki');
+	db.auth('adminMiki', 'admin1');
+	console.log(db.stats());
+	var count = 0;
+	db.fs.files.find().forEach(removeFromChunkIfNotInDatabase);
+	db.repairDatabase();
+	console.log(db.stats());
+	quit();
 	response.success('success');
+
 });
+
+//Remove chunk if it does not belong to "MyColomn" colomn in "MyTable" table
+function removeFromChunkIfNotInDatabase(chunk){
+	console.log("file name = ", chunk.filename);
+	//Look for the parent file in IAPPromo
+	//var iAPSDCol = db.MyTable.find({'MyColomn' : chunk.filename}).count();
+	//if (iAPSDCol == 0){
+		status = db.fs.chunks.remove({'files_id': chunk._id});
+		status = db.fs.files.remove({'filename': chunk.filename});
+	//}
+	//else{
+		//count += 1;
+		//print("found in Lvl and iAP table don't delete" + count);
+	//}
+}
