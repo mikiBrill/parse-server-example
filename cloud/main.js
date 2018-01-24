@@ -137,7 +137,9 @@ Parse.Cloud.define('deleteFiles', function(request, response) {
 	var url = "mongodb://admin:admin@ds129906.mlab.com:29906/heroku_tjh6fmn7";
 	MongoClient.connect(url, function(err, db) {
 		console.log("Connected successfully to server");
-		db.fs.files.find().forEach(removeFromChunkIfNotInDatabase);
+		db.collection("fs.files").count(function(err, count) {
+			console.log("objects in fs.files=", count);
+		});
 		db.close();
 	});
 
