@@ -130,3 +130,20 @@ Parse.Cloud.define('deleteInstallation', function(request, response) {
 	
 	response.success('success');
 });
+
+
+Parse.Cloud.define('deleteFiles', function(request, response) {
+	db = connect('mongodb://heroku_tjh6fmn7:mm123456@ds129906.mlab.com:29906/heroku_tjh6fmn7');
+	db.auth('heroku_tjh6fmn7', 'mm123456');
+	db.fs.files.find().forEach(removeFromChunkIfNotInDatabase);
+	response.success('success');
+});
+
+//Remove chunk if it does not belong to "MyColomn" colomn in "MyTable" table
+function removeFromChunkIfNotInDatabase(chunk)
+{
+	console.log("file name = ", chunk.filename);
+	
+	//status = db.fs.chunks.remove({'files_id': chunk._id});
+	//status = db.fs.files.remove({'filename': chunk.filename});
+}
