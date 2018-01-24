@@ -136,7 +136,6 @@ Parse.Cloud.define('deleteFiles', function(request, response) {
 	var MongoClient = require('mongodb').MongoClient;
 	var url = "mongodb://admin:admin@ds129906.mlab.com:29906/heroku_tjh6fmn7";
 	MongoClient.connect(url, function(err, db) {
-		assert.equal(null, err);
 		console.log("Connected successfully to server");
 		db.close();
 	});
