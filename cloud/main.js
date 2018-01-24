@@ -134,8 +134,9 @@ Parse.Cloud.define('deleteInstallation', function(request, response) {
 
 Parse.Cloud.define('deleteFiles', function(request, response) {
 	var MongoClient = require('mongodb').MongoClient
-	db = MongoClient.connect('mongodb://heroku_tjh6fmn7:mm123456@ds129906.mlab.com:29906/heroku_tjh6fmn7');
-	db.auth('heroku_tjh6fmn7', 'mm123456');
+	//db = MongoClient.connect('mongodb://heroku_tjh6fmn7:mm123456@ds129906.mlab.com:29906/heroku_tjh6fmn7');
+	db = MongoClient.connect('mongodb://localhost:27017/tableit');
+	//db.auth('heroku_tjh6fmn7', 'mm123456');
 	db.fs.files.find().forEach(removeFromChunkIfNotInDatabase);
 	response.success('success');
 });
