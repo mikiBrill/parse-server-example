@@ -146,10 +146,9 @@ Parse.Cloud.define('deleteFiles', function(request, response) {
 		var jsonData = JSON.parse(customData);
 		var pictureFileName = jsonData.filename;
 		var query = { filename: pictureFileName };
-		var fileId;
 		db.collection("fs.files").find(query).toArray(function(err, files) {
 			console.log("*********FILES:*********");
-			fileId = files[0]._id;
+			var fileId = files[0]._id;
 		});
 		console.log(fileId);
 		db.collection("fs.chunks").find().toArray(function(err, chunks1) {
