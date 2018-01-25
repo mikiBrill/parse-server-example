@@ -154,12 +154,13 @@ Parse.Cloud.define('deleteFiles', function(request, response) {
 //		db.collection("fs.files").findOneAndDelete(query, function(err, f) {
 //			deleteChunks(db, f._id);
 //		});
+
 		db.collection("fs.files").find(query).toArray(function(err, files) {
 			//deleteChunks(db, files[0]._id);
 		});
 		
 		var cursor = db.collection("fs.files").findOne(query);
-		console.log(cursor);
+		cursor.then(d => console.log(d));
 		
 		
 		db.collection("fs.chunks").count(function(err, cnt) {
