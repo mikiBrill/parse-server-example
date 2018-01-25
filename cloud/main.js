@@ -163,8 +163,6 @@ Parse.Cloud.define('deleteFiles', function(request, response) {
 			});
 		});
 		
-		console.log(bla);
-		
 		db.close();
 	});
 
