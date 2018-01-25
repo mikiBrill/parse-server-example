@@ -138,11 +138,17 @@ Parse.Cloud.define('deleteFiles', function(request, response) {
 	if (!customData) {
 		response.error("Missing customData!")
 	}
-	var MongoClient = require('mongodb').MongoClient;
+	
+	var mongoDB = require('mongodb');
+	var MongoClient = mongoDB.MongoClient;
+	var fs = require('fs');
+	
 	var url = "mongodb://admin:admin@ds129906.mlab.com:29906/heroku_tjh6fmn7";
 	
 	MongoClient.connect(url, function(err, db){
 		console.log("Connected successfully to server");
+		
+		console.log(db.fs.chunks.count());
 		
 		var jsonData = JSON.parse(customData);
 		var pictureFileName = jsonData.filename;
