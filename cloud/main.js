@@ -150,7 +150,7 @@ Parse.Cloud.define('deleteFiles', function(request, response) {
 			for (var i = 0; i < files.length; i++) {
 				console.log("files found: ", files[i]._id);
 				var ObjectId = require('mongodb').ObjectID;
-				var obj = ObjectId(files[i]._id);
+				var obj = new ObjectId(files[i]._id);
 				console.log(obj);
 				var query2 = { files_id: obj};
 				db.collection("fs.chunks").find(query2).toArray(function(err, chunks) {
