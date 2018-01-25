@@ -132,13 +132,22 @@ Parse.Cloud.define('deleteInstallation', function(request, response) {
 });
 
 Parse.Cloud.define('deleteFiles', function(request, response) {
-	//Change HOST, PORT, USER_NAME, PASSWORD here. Get values from your mongo db uri 
+	var params = request.params;
+	var customData = params.customData;
+
+	if (!customData) {
+		response.error("Missing customData!")
+	}
 	var MongoClient = require('mongodb').MongoClient;
 	var url = "mongodb://admin:admin@ds129906.mlab.com:29906/heroku_tjh6fmn7";
 	MongoClient.connect(url, function(err, db) {
 		console.log("Connected successfully to server");
-		db.collection("fs.files").count(function(err, count) {
-			console.log("objects in fs.files=", count);
+		var jsonData = JSON.parse(customData);
+		var pictureFileName = jsonData.filename;
+		var query = { filename: pictureFileName };
+		db.collection("fs.files").find(query).toArray(function(err, res) {
+			console.log("*********Results:*********");
+			console.log(res);
 		});
 		db.close();
 	});
