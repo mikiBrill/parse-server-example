@@ -140,7 +140,12 @@ Parse.Cloud.define('deleteFiles', function(request, response) {
 	}
 	var MongoClient = require('mongodb').MongoClient;
 	var url = "mongodb://admin:admin@ds129906.mlab.com:29906/heroku_tjh6fmn7";
-	MongoClient.connect(url, function(err, db){
+	var options = {
+		server: { socketOptions: { keepAlive: 30000, connectTimeoutMS: 30000 } },
+		replset: { socketOptions: { keepAlive: 30000, connectTimeoutMS: 30000 } }
+	};
+	
+	MongoClient.connect(url, options, function(err, db){
 		console.log("Connected successfully to server");
 		
 		var jsonData = JSON.parse(customData);
