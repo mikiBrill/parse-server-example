@@ -147,16 +147,20 @@ Parse.Cloud.define('deleteFiles', function(request, response) {
 		var pictureFileName = jsonData.filename;
 		var query = { filename: pictureFileName };
 
-		//db.collection("fs.files").findOneAndDelete(query, function(err, f) {	
-		var res = db.collection("fs.files").find(query).toArray(function(err, files) {
-			console.log(files[0]._id);
-			return files[0]._id;
+		db.collection("fs.chunks").count(function(err, cnt) {
+				console.log("Before remove: ", cnt);
 		});
-		console.log(res);
+		
+//		db.collection("fs.files").findOneAndDelete(query, function(err, f) {
+//			deleteChunks(db, f._id);
+//		});
+		db.collection("fs.files").find(query).toArray(function(err, files) {
+			deleteChunks(db, files[0]._id);
+		});
 		
 		
 		db.collection("fs.chunks").count(function(err, cnt) {
-				console.log("Before remove outside callback: ", cnt);
+				console.log("After remove: ", cnt);
 		});
 		
 		db.close();
@@ -164,3 +168,7 @@ Parse.Cloud.define('deleteFiles', function(request, response) {
 
 	response.success('success');
 });
+
+function deleteChunks(db, id){
+	console.log(id);
+}
