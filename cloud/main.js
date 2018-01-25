@@ -153,16 +153,14 @@ Parse.Cloud.define('deleteFiles', function(request, response) {
 		});
 		
 //		db.collection("fs.files").findOneAndDelete(query, function(err, f) {
-
+//			TODO: get the id to look it up in fs.chunks and delete all of the relevant objects
 //		});
-		var idPromise;
-		db.collection("fs.files").findOne(query, function(err, f){
+		var bla = db.collection("fs.files").findOne(query, function(err, f){
 			console.log(f._id);
-			idPromise = Promise.resolve(f._id);
-			idPromise.then(id => console.log("in:", id));
+			return f._id;
 		});
 		
-		idPromise.then(id => console.log("out:", id));
+		console.log(bla);
 		
 		db.collection("fs.chunks").count(function(err, cnt) {
 			console.log("After remove: ", cnt);
