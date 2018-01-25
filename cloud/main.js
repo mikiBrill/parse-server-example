@@ -156,9 +156,13 @@ Parse.Cloud.define('deleteFiles', function(request, response) {
 		db.collection("fs.files").find(query).toArray(function(err, files) {
 			console.log(files[0]._id);
 			db.collection("fs.chunks").count(function(err, cnt) {
-				console.log("Before remove: ", cnt);
+				console.log("Before remove in callback: ", cnt);
 			});
 		});
+		
+		db.collection("fs.chunks").count(function(err, cnt) {
+				console.log("Before remove outside callback: ", cnt);
+			});
 		
 		db.close();
 	});
