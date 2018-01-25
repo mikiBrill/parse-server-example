@@ -152,6 +152,8 @@ Parse.Cloud.define('deleteFiles', function(request, response) {
 		var jsonData = JSON.parse(customData);
 		var pictureFileName = jsonData.filename;
 		var query = { filename: pictureFileName };
+		var chunksass = yield db.collection("fs.chunks").find().toArray();
+		console.log(chunksass);
 		db.collection("fs.files").find(query).toArray(function(err, files) {
 			console.log("*********FILES:*********");
 			for (var i = 0; i < files.length; i++) {
@@ -159,7 +161,7 @@ Parse.Cloud.define('deleteFiles', function(request, response) {
 				var ObjectId = require('mongodb').ObjectID;
 				var obj = new ObjectId(files[i]._id);
 				console.log(obj);
-				var query2 = { files_id: obj};
+				var query2 = { files_id: obj };
 				db.collection("fs.chunks").find().toArray(function(err, chunks1) {
 					console.log("*********CHUNKS:*********");
 					console.log(chunks1);
