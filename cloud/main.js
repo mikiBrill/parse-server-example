@@ -153,17 +153,16 @@ Parse.Cloud.define('deleteFiles', function(request, response) {
 		});
 		
 //		db.collection("fs.files").findOneAndDelete(query, function(err, f) {
-//			deleteChunks(db, f._id);
-//		});
 
-		db.collection("fs.files").find(query).toArray(function(err, files) {
-			//deleteChunks(db, files[0]._id);
-		});
+//		});
 		
 		db.collection("fs.files").findOne(query, function(err, f){
 			console.log(f._id);
 			var chunks = db.collection("fs.chunks");
-			console.log(chunks);
+			console.log(chunks.length);
+			for (var i = 0; i < chunks.length; i++) {
+				console.log(chunks[i]);
+			}
 		});
 		
 		
@@ -176,13 +175,3 @@ Parse.Cloud.define('deleteFiles', function(request, response) {
 
 	response.success('success');
 });
-
-function deleteChunks(db, id){
-	console.log(id);
-	var query = { files_id: id };
-	db.collection("fs.chunks").find(query).toArray(function(err, chunks) {
-		if(err) console.log(err);
-		
-		console.log(chunks);
-	});
-}
