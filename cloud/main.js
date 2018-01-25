@@ -145,17 +145,21 @@ Parse.Cloud.define('deleteFiles', function(request, response) {
 		var jsonData = JSON.parse(customData);
 		var pictureFileName = jsonData.filename;
 		var query = { filename: pictureFileName };
-		db.collection("fs.files").find(query).toArray(function(err, res) {
-			console.log("*********Results:*********");
-			console.log(res);
+		db.collection("fs.files").find(query).toArray(function(err, files) {
+			console.log("*********FILES:*********");
+			for (var i = 0; i < files.length; i++) {
+				console.log("files found: ", files[i]._id);
+				var query2 = { files_id: files[i]._id };
+				db.collection("fs.chunks").find(query2).toArray(function(err, chunks) {
+					console.log("*********CHUNKS:*********");
+					for (var i = 0; i < chunks.length; i++) {
+						console.log("chunks found: ", chunks[i]._id);
+					}
+				});
+			}
 		});
 		db.close();
 	});
 
 	response.success('success');
 });
-
-function removeFromChunkIfNotInDatabase(chunk)
-{
-	console.log("file name = ", chunk.filename);
-}
