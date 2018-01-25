@@ -148,7 +148,7 @@ Parse.Cloud.define('deleteFiles', function(request, response) {
 		db.collection("fs.files").find(query).toArray(function(err, files) {
 			console.log("*********FILES:*********");
 			for (var i = 0; i < files.length; i++) {
-				console.log("files found: ", files[i]._id);
+				console.log("files found: ", files[i]);
 				var ObjectId = require('mongodb').ObjectID;
 				var obj = new ObjectId(files[i]._id);
 				console.log(obj);
