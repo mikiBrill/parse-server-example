@@ -141,14 +141,10 @@ Parse.Cloud.define('deleteFiles', function(request, response) {
 	
 	var mongoDB = require('mongodb');
 	var MongoClient = mongoDB.MongoClient;
-	var fs = require('fs');
-	
 	var url = "mongodb://admin:admin@ds129906.mlab.com:29906/heroku_tjh6fmn7";
 	
 	MongoClient.connect(url, function(err, db){
 		console.log("Connected successfully to server");
-		
-		console.log(db.fs.chunks.count());
 		
 		var jsonData = JSON.parse(customData);
 		var pictureFileName = jsonData.filename;
@@ -158,15 +154,8 @@ Parse.Cloud.define('deleteFiles', function(request, response) {
 			console.log("Number of chunks: ", cnt);
 		});
 		
-//		db.collection("fs.files").findOneAndDelete(query, function(err, f) {
+		db.collection("fs.files").findOneAndDelete(query, function(err, f) {
 //			TODO: get the id to look it up in fs.chunks and delete all of the relevant objects
-//		});
-		db.collection("fs.files").findOne(query, function(err, f){
-			console.log(f._id);
-			var query2 = { files_id: f._id };
-			db.collection("fs.chunks").find(query2, function(err, chunks){
-				console.log(chunks.length);
-			});
 		});
 		
 		db.close();
