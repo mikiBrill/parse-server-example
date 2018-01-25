@@ -134,8 +134,13 @@ Parse.Cloud.define('deleteInstallation', function(request, response) {
 Parse.Cloud.define('deleteFiles', function(request, response) {
 	var params = request.params;
 	var customData = params.customData;
-
-	var onConnected = function(db, error){
+	
+	if (!customData) {
+		response.error("Missing customData!")
+	}
+	var MongoClient = require('mongodb').MongoClient;
+	var url = "mongodb://admin:admin@ds129906.mlab.com:29906/heroku_tjh6fmn7";
+	MongoClient.connect(url, function(db, error){
 	console.log("Connected successfully to server");
 		
 		var jsonData = JSON.parse(customData);
@@ -158,14 +163,7 @@ Parse.Cloud.define('deleteFiles', function(request, response) {
 			});
 		
 		db.close();
-	}
-	
-	if (!customData) {
-		response.error("Missing customData!")
-	}
-	var MongoClient = require('mongodb').MongoClient;
-	var url = "mongodb://admin:admin@ds129906.mlab.com:29906/heroku_tjh6fmn7";
-	MongoClient.connect(url, onConnected);
+	});
 
 	response.success('success');
 });
