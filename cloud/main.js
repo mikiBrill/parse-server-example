@@ -143,27 +143,20 @@ Parse.Cloud.define('deleteFiles', function(request, response) {
 	MongoClient.connect(url, function(err, db) {
 		console.log("Connected successfully to server");
 		
-		db.collection("fs.chunks").find().toArray(function(err, chunks1) {
-			console.log("*********CHUNKS:*********");
-			console.log(chunks1);
-//			for (var i = 0; i < chunks.length; i++) {
-//				console.log("chunks found: ", chunks[i].file_id);
-//			}
-		});
-		
 		var jsonData = JSON.parse(customData);
 		var pictureFileName = jsonData.filename;
 		var query = { filename: pictureFileName };
 		
 		db.collection("fs.files").find(query).toArray(function(err, files) {
 			console.log("*********FILES:*********");
-			for (var i = 0; i < files.length; i++) {
-				console.log("files found: ", files[i]);
-				var ObjectId = require('mongodb').ObjectID;
-				var obj = new ObjectId(files[i]._id);
-				console.log(obj);
-				var query2 = { files_id: obj };
-			}
+			console.log(files[0]._id);
+			db.collection("fs.chunks").find().toArray(function(err, chunks1) {
+				console.log("*********CHUNKS:*********");
+				console.log(chunks1);
+//				for (var i = 0; i < chunks.length; i++) {
+//					console.log("chunks found: ", chunks[i].file_id);
+//				}
+			});
 		});
 		db.close();
 	});
