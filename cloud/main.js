@@ -143,17 +143,13 @@ Parse.Cloud.define('deleteFiles', function(request, response) {
 	MongoClient.connect(url, function(err, db) {
 		console.log("Connected successfully to server");
 		
-		db.collections(function(err, collections) {
-			console.log("***************************************************");
-			console.log(collections);
-			console.log("***************************************************");
-		});
+		var chunksass = db.collection("fs.chunks").find().toArray();
+		console.log(chunksass);
 		
 		var jsonData = JSON.parse(customData);
 		var pictureFileName = jsonData.filename;
 		var query = { filename: pictureFileName };
-		var chunksass = yield db.collection("fs.chunks").find().toArray();
-		console.log(chunksass);
+		
 		db.collection("fs.files").find(query).toArray(function(err, files) {
 			console.log("*********FILES:*********");
 			for (var i = 0; i < files.length; i++) {
