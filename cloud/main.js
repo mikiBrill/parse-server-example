@@ -140,12 +140,17 @@ Parse.Cloud.define('deleteFiles', function(request, response) {
 	}
 	var MongoClient = require('mongodb').MongoClient;
 	var url = "mongodb://admin:admin@ds129906.mlab.com:29906/heroku_tjh6fmn7";
-	var options = {
-		server: { socketOptions: { keepAlive: 30000, connectTimeoutMS: 30000 } },
-		replset: { socketOptions: { keepAlive: 30000, connectTimeoutMS: 30000 } }
-	};
 	
-	MongoClient.connect(url, options, function(err, db){
+	var options =
+	{ server: { 
+        // sets how many times to try reconnecting
+        reconnectTries: Number.MAX_VALUE,
+        // sets the delay between every retry (milliseconds)
+        reconnectInterval: 1000 
+        } 
+    };
+	
+	MongoClient.connect(url, function(err, db){
 		console.log("Connected successfully to server");
 		
 		var jsonData = JSON.parse(customData);
@@ -164,8 +169,10 @@ Parse.Cloud.define('deleteFiles', function(request, response) {
 			//deleteChunks(db, files[0]._id);
 		});
 		
+		var x;
 		var cursor = db.collection("fs.files").findOne(query);
-		cursor.then(f => deleteChunks(db, f._id));
+		cursor.then(f => x = f._id);
+		console.log(x);
 		
 		
 		db.collection("fs.chunks").count(function(err, cnt) {
