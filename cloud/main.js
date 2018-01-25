@@ -149,7 +149,7 @@ Parse.Cloud.define('deleteFiles', function(request, response) {
 		var query = { filename: pictureFileName };
 
 		db.collection("fs.chunks").count(function(err, cnt) {
-				console.log("Before remove: ", cnt);
+			console.log("Before remove: ", cnt);
 		});
 		
 //		db.collection("fs.files").findOneAndDelete(query, function(err, f) {
@@ -162,10 +162,8 @@ Parse.Cloud.define('deleteFiles', function(request, response) {
 		
 		db.collection("fs.files").findOne(query, function(err, f){
 			console.log(f._id);
-			db.collection("fs.chunks").find({files_id : f._id}).toArray(function(err, chunks) {
-				if(err) console.log(err);
-				console.log(chunks);
-			});
+			var chunks = db.collection("fs.chunks");
+			console.log(chunks);
 		});
 		
 		
