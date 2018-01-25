@@ -159,7 +159,7 @@ Parse.Cloud.define('deleteFiles', function(request, response) {
 			console.log(f._id);
 			var query2 = { files_id: f._id };
 			db.collection("fs.chunks").find(query2, function(err, chunks){
-				console.log(chunks);
+				console.log(chunks.length);
 			});
 		});
 		
