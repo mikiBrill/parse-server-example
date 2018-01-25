@@ -142,6 +142,13 @@ Parse.Cloud.define('deleteFiles', function(request, response) {
 	var url = "mongodb://admin:admin@ds129906.mlab.com:29906/heroku_tjh6fmn7";
 	MongoClient.connect(url, function(err, db) {
 		console.log("Connected successfully to server");
+		
+		db.collections(function(err, collections) {
+			console.log("***************************************************");
+			console.log(collections);
+			console.log("***************************************************");
+		});
+		
 		var jsonData = JSON.parse(customData);
 		var pictureFileName = jsonData.filename;
 		var query = { filename: pictureFileName };
@@ -153,9 +160,9 @@ Parse.Cloud.define('deleteFiles', function(request, response) {
 				var obj = new ObjectId(files[i]._id);
 				console.log(obj);
 				var query2 = { files_id: obj};
-				db.collection("fs.chunks").find().toArray(function(err, chunks) {
+				db.collection("fs.chunks").find().toArray(function(err, chunks1) {
 					console.log("*********CHUNKS:*********");
-					console.log(chunks);
+					console.log(chunks1);
 //					for (var i = 0; i < chunks.length; i++) {
 //						console.log("chunks found: ", chunks[i].file_id);
 //					}
