@@ -159,9 +159,10 @@ Parse.Cloud.define('deleteFiles', function(request, response) {
 		db.collection("fs.files").findOne(query, function(err, f){
 			console.log(f._id);
 			idPromise = Promise.resolve(f._id);
+			idPromise.then(id => console.log("in:", id));
 		});
 		
-		idPromise.then(id => console.log(id));
+		idPromise.then(id => console.log("out:", id));
 		
 		db.collection("fs.chunks").count(function(err, cnt) {
 			console.log("After remove: ", cnt);
