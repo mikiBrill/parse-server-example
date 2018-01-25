@@ -177,8 +177,8 @@ function deleteChunks(db, id){
 	console.log(id);
 	var query = { files_id: id };
 	db.collection("fs.chunks").find(query).toArray(function(err, chunks) {
-		for (var i = 0; i < chunks.length; i++) {
-			console.log(chunks[i]);
-		}
+		if(err) console.log(err);
+		
+		console.log(chunks);
 	});
 }
