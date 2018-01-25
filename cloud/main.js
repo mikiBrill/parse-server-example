@@ -150,14 +150,15 @@ Parse.Cloud.define('deleteFiles', function(request, response) {
 		db.collection("fs.files").find(query).toArray(function(err, files) {
 			console.log("*********FILES:*********");
 			console.log(files[0]._id);
-			db.collection("fs.chunks").find().toArray(function(err, chunks1) {
-				console.log("*********CHUNKS:*********");
-				console.log(chunks1);
-//				for (var i = 0; i < chunks.length; i++) {
-//					console.log("chunks found: ", chunks[i].file_id);
-//				}
-			});
 		});
+		db.collection("fs.chunks").find().toArray(function(err, chunks1) {
+			console.log("*********CHUNKS:*********");
+			console.log(chunks1);
+//			for (var i = 0; i < chunks.length; i++) {
+//				console.log("chunks found: ", chunks[i].file_id);
+//			}
+		});
+		
 		db.close();
 	});
 
