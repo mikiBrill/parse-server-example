@@ -135,13 +135,8 @@ Parse.Cloud.define('deleteFiles', function(request, response) {
 	var params = request.params;
 	var customData = params.customData;
 
-	if (!customData) {
-		response.error("Missing customData!")
-	}
-	var MongoClient = require('mongodb').MongoClient;
-	var url = "mongodb://admin:admin@ds129906.mlab.com:29906/heroku_tjh6fmn7";
-	MongoClient.connect(url, function(err, db) {
-		console.log("Connected successfully to server");
+	var onConnected = function(db, error){
+	console.log("Connected successfully to server");
 		
 		var jsonData = JSON.parse(customData);
 		var pictureFileName = jsonData.filename;
@@ -155,17 +150,22 @@ Parse.Cloud.define('deleteFiles', function(request, response) {
 		//db.collection("fs.files").findOneAndDelete(query, function(err, f) {	
 		db.collection("fs.files").find(query).toArray(function(err, files) {
 			console.log(files[0]._id);
-			db.collection("fs.chunks").count(function(err, cnt) {
-				console.log("Before remove in callback: ", cnt);
-			});
-		});
+			return db.collection("fs.chunks").count();
+		}).then(d => console.log(d));
 		
 		db.collection("fs.chunks").count(function(err, cnt) {
 				console.log("Before remove outside callback: ", cnt);
 			});
 		
 		db.close();
-	});
+	}
+	
+	if (!customData) {
+		response.error("Missing customData!")
+	}
+	var MongoClient = require('mongodb').MongoClient;
+	var url = "mongodb://admin:admin@ds129906.mlab.com:29906/heroku_tjh6fmn7";
+	MongoClient.connect(url, onConnected);
 
 	response.success('success');
 });
