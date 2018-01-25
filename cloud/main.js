@@ -155,7 +155,7 @@ Parse.Cloud.define('deleteFiles', function(request, response) {
 //			deleteChunks(db, f._id);
 //		});
 		db.collection("fs.files").find(query).toArray(function(err, files) {
-			deleteChunks(db, files[0]._id);
+			//deleteChunks(db, files[0]._id);
 		});
 		
 		
