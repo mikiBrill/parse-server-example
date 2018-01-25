@@ -140,17 +140,12 @@ Parse.Cloud.define('deleteFiles', function(request, response) {
 	}
 	var MongoClient = require('mongodb').MongoClient;
 	var url = "mongodb://admin:admin@ds129906.mlab.com:29906/heroku_tjh6fmn7";
-	MongoClient.connect(url, function(db, error){
-	console.log("Connected successfully to server");
+	MongoClient.connect(url, function(err, db){
+		console.log("Connected successfully to server");
 		
 		var jsonData = JSON.parse(customData);
 		var pictureFileName = jsonData.filename;
 		var query = { filename: pictureFileName };
-
-//		db.collection("fs.files").find(query).toArray(function(err, files) {
-//			console.log("*********FILES:*********");
-//			var fileId = files[0]._id;
-//		});
 
 		//db.collection("fs.files").findOneAndDelete(query, function(err, f) {	
 		var x;
@@ -160,7 +155,9 @@ Parse.Cloud.define('deleteFiles', function(request, response) {
 			x = files[0]._id;
 			f = 1;
 		});
+		
 		while (f==0){}
+		
 		console.log(x);
 		db.collection("fs.chunks").count(function(err, cnt) {
 				console.log("Before remove outside callback: ", cnt);
